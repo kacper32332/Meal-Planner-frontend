@@ -1,0 +1,18 @@
+FROM node:22.11
+
+# Set working directory
+WORKDIR /frontend
+
+# Copy only package.json and package-lock.json first
+COPY ./package.json .
+COPY ./package-lock.json .
+
+# Install dependencies
+# RUN npm ci
+RUN --mount=type=cache,target=/root/.npm npm ci
+
+# Now copy the rest of your frontend code
+COPY . .
+
+# Start the app
+CMD ["npm", "run", "dev"]
